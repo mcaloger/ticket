@@ -1,0 +1,28 @@
+{
+  "name": "ticket",
+  "version": "1.0.0",
+  "description": "Generic ticket system",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcaloger/ticket.git"
+  },
+  "author": "Matthew Caloger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcaloger/ticket/issues"
+  },
+  "homepage": "https://github.com/mcaloger/ticket#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.1",
+    "validator": "^10.7.1"
+  }
+}
