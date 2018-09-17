@@ -1,6 +1,9 @@
 // express
 let express = require('express');
 
+//port 
+let port = 3000;
+
 // middleware
 let createError = require('http-errors');
 let logger = require('morgan');
@@ -41,5 +44,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 module.exports = app;
