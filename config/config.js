@@ -4,4 +4,4 @@ let config = {
     dbDebug: false
 }
 
-module.exports = config;
+module.exports = config
