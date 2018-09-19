@@ -2,8 +2,6 @@ let express = require('express')
 
 let router = express.Router()
 
-let bcryptServices = require('../security/bcryptServices')
-
 let userServices = require('../data/services/userServices')
 
 router.get('/', async (req, res, next) => {
@@ -20,28 +18,19 @@ router.post('/register', async (req, res, next) => {
 
   let email = req.body.email
   let password = req.body.password
-  let result = true
-  let doesNotExist = await userServices.checkIfUserDoesNotExist(email)
+  
+  let result = await userServices.register(email, password)
 
-  if(result === true && doesNotExist === true) {
-
-    let saltedHashedPassword = await bcryptServices.saltAndHash(password)
-    console.log(saltedHashedPassword)
-
-    let createUser = await userServices.createUser(email, saltedHashedPassword.hash, saltedHashedPassword.salt)
-    if (createUser) {
-      res.status(200).json({message: "Success"})
-    } else {
-      res.json({error: "Failed to create user."})
-    }
+  if(result === true){
+    res.status(200).json({message: "success"})
   } else {
-    res.json({error: "Validation failed."})
+    res.status(500).json({message: "error"})
   }
 })
 
 router.post("/login", async (req, res, next) => {
   let email = req.body.email;
-  let password = req.body.password
+  let password = req.body.password 
 
   let login = await userServices.login(email, password)
 

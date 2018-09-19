@@ -25,14 +25,10 @@ let userServices = {
     checkIfUserDoesNotExist: async (username) => {
         try {
             let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [username]);
-            
-            console.log('checkIfUserDoesNotExist', "rows", rows)
 
             if(rows.length === 0) {
-                console.log('checkIfUserDoesNotExist', "true")
                 return true;
             } else {
-                console.log('checkIfUserDoesNotExist', "false")
                 return false;
             }
         } catch (e) {
@@ -49,6 +45,23 @@ let userServices = {
             return false;
         }
     },
+    register: async (email, password) => {
+        let doesNotExist = await userServices.checkIfUserDoesNotExist(email)
+
+        if(doesNotExist === true) {
+
+            let saltedHashedPassword = await bcryptServices.saltAndHash(password)
+
+            let createUser = await userServices.createUser(email, saltedHashedPassword.hash, saltedHashedPassword.salt)
+            if (createUser) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    },
     updateUser: async (email, password, salt, active) => {
 
     },
@@ -57,7 +70,7 @@ let userServices = {
     },
     login: async (email, password) => {
         try {
-            let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [email]);
+            let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [email])
 
             if(rows){
                 let hashedSaltedPassword = await bcryptServices.compare(password, rows[0].usersalt, rows[0].userpassword)

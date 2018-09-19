@@ -1,8 +1,14 @@
 let crypto = require("crypto");
+let config = require('../config/config')
 
 let cryptoServices = {
     generateSessionId: async () => {
-        return crypto.randomBytes(128).toString('hex')
+        let length = config.sessionIdBytes
+        return crypto.randomBytes(length).toString('hex')
+    },
+    generateRandomChars: async (length) => {
+        let result = crypto.randomBytes(length).toString('hex')
+        return result
     }
 }
 
