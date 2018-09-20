@@ -90,7 +90,7 @@ let userServices = {
             return false;
         }
     },
-    getLoggedInUsername: async (sessionId) => {
+    getLoggedInUser: async (sessionId) => {
         let user = await userSessionServices.checkSessionId(sessionId)
         console.log(user)
         return user

@@ -1,12 +1,12 @@
 let express = require('express')
 let router = express.Router()
 
-let userServices = require('../data/services/userServices')
+let ticketServices = require('../data/services/ticketServices')
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
-  let result = await userServices.getUsers()
-  res.json(result)
+  let ownedTickets = ticketServices.getOwnedTickets()
+  res.json(ownedTickets)
 })
 
 router.get('/check/:name', async (req, res, next) => {
