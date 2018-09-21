@@ -5,42 +5,62 @@ let router = express.Router()
 let userServices = require('../data/services/userServices')
 
 router.get('/', async (req, res, next) => {
-  let result = await userServices.getUsers();
-  res.json(result);
+    let result = await userServices.getUsers();
+    res.json(result);
 });
 
 router.get('/check/:name', async (req, res, next) => {
-  let result = await userServices.checkIfUserDoesNotExist(req.params.name);
-  res.json({result: result})
+    try {
+        let result = await userServices.checkIfUserDoesNotExist(req.params.name);
+        res.json({
+            result: result
+        })
+    } catch (e) {
+        next()
+    }
+
 })
 
 router.post('/register', async (req, res, next) => {
 
-  let email = req.body.email
-  let password = req.body.password
-  
-  let result = await userServices.register(email, password)
+    try {
+        let email = req.body.email
+        let password = req.body.password
 
-  if(result === true){
-    res.status(200).json({message: "success"})
-  } else {
-    res.status(500).json({message: "error"})
-  }
+        let result = await userServices.register(email, password)
+
+        if (result === true) {
+            res.status(200).json({
+                message: "success"
+            })
+        } else {
+            res.status(500).json({
+                message: "error"
+            })
+        }
+    } catch (e) {
+        next()
+    }
 })
 
 router.post("/login", async (req, res, next) => {
-  let email = req.body.email;
-  let password = req.body.password 
+    try {
+        let email = req.body.email;
+        let password = req.body.password
 
-  let login = await userServices.login(email, password)
+        let login = await userServices.login(email, password)
 
-  res.json(login)
+        res.json(login)
+    } catch (e) {
+        next()
+    }
+
 })
 
 router.post("/checklogin", async (req, res, next) => {
-  let sessionId = req.body.sessionId
-  let userId = await userServices.getLoggedInUsername(sessionId)
-  res.json(userId)
+    let sessionId = req.body.sessionId
+    let userId = await userServices.getLoggedInUsername(sessionId)
+    res.json(userId)
 })
 
 module.exports = router;

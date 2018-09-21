@@ -3,12 +3,21 @@ let config = require('../config/config')
 
 let cryptoServices = {
     generateSessionId: async () => {
-        let length = config.sessionIdBytes
-        return crypto.randomBytes(length).toString('hex')
+        try {
+            let length = config.sessionIdBytes
+            return crypto.randomBytes(length).toString('hex')
+        } catch (e) {
+            throw new Error('cryptoError')
+        }
     },
     generateRandomChars: async (length) => {
-        let result = crypto.randomBytes(length).toString('hex')
-        return result
+        try {
+            let result = crypto.randomBytes(length).toString('hex')
+            return result
+        } catch (e) {
+            throw new Error('cryptoError')
+        }
+
     }
 }
 

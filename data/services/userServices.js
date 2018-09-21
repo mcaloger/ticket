@@ -74,9 +74,9 @@ let userServices = {
 
             if(rows){
                 let hashedSaltedPassword = await bcryptServices.compare(password, rows[0].usersalt, rows[0].userpassword)
-                let sessionToken = await cryptoServices.generateSessionId();
+                let sessionToken = await cryptoServices.generateSessionId()
                 if(hashedSaltedPassword == true) {
-                    let userId = await userServices.getUserIdFromEmail(email);
+                    let userId = await userServices.getUserIdFromEmail(email)
                     userSessionServices.registerSession(userId, sessionToken)
                     return {login: true, sessionToken: sessionToken, message:"success"}
                 } else {
@@ -86,14 +86,19 @@ let userServices = {
                 return {login: false, message: "Invalid username/password."}
             }
         } catch (e) {
-            console.error(e);
-            return false;
+            console.error(e)
+            return false
         }
     },
     getLoggedInUser: async (sessionId) => {
-        let user = await userSessionServices.checkSessionId(sessionId)
-        console.log(user)
-        return user
+        try {
+            let user = await userSessionServices.checkSessionId(sessionId)
+            console.log(user)
+            return user
+        } catch (e) {
+            throw new Error('dbError')
+        }
+        
     }
 
 };
