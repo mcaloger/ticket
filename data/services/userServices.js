@@ -2,15 +2,29 @@ let pool = require('../database');
 let bcryptServices = require('../../security/bcryptServices')
 let cryptoServices = require ('../../security/cryptoServices')
 let userSessionServices = require('../services/userSessionServices')
+let knex = require('../knex')
 
 let userServices = {
     getUsers: async () => {
         try {
-            let { rows }  = await pool.query("SELECT * FROM ticket_schema.users", []);
+            //let { rows }  = await pool.query("SELECT * FROM ticket_schema.users", []);
+            let rows = await knex('users').withSchema('ticket_schema').select()
+            
             return rows;
         } catch (e) {
-            console.error('getUsers', e)
-            return false;
+            console.log(e)
+            throw new Error('dbErr')
+        }
+    },
+    getUserById: async (id) => {
+        try {
+            let rows = await knex('users').withSchema('ticket_schema').select().where({
+                userid: id
+            })
+            return rows;
+        } catch (e) {
+            console.log(e)
+            throw new Error('dbErr')
         }
     },
     getUserIdFromEmail: async (email) => {
