@@ -5,13 +5,29 @@ let router = express.Router()
 let userServices = require('../data/services/userServices')
 
 router.get('/', async (req, res, next) => {
-    let result = await userServices.getUsers();
-    res.json(result);
+    try {
+        let result = await userServices.getUsers()
+        res.json(result)
+    } catch (e) {
+        next()
+    }
 });
+
+router.get('/user/:id', async (req, res, next) => {
+    let userId = req.params.id
+    console.log(userId)
+    try {
+        let result = await userServices.getUserById(userId)
+        res.json(result)
+    } catch (e) {
+        console.log(e)
+        next()
+    }
+})
 
 router.get('/check/:name', async (req, res, next) => {
     try {
-        let result = await userServices.checkIfUserDoesNotExist(req.params.name);
+        let result = await userServices.checkIfUserDoesNotExist(req.params.name)
         res.json({
             result: result
         })
