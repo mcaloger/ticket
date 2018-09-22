@@ -34,11 +34,9 @@ router.get('/check/:name', async (req, res, next) => {
     } catch (e) {
         next()
     }
-
 })
 
 router.post('/register', async (req, res, next) => {
-
     try {
         let email = req.body.email
         let password = req.body.password
@@ -46,16 +44,16 @@ router.post('/register', async (req, res, next) => {
         let result = await userServices.register(email, password)
 
         if (result === true) {
-            res.status(200).json({
+            res.status(201).json({
                 message: "success"
             })
         } else {
-            res.status(500).json({
-                message: "error"
+            res.status(400).json({
+                message: result.error
             })
         }
     } catch (e) {
-        next()
+        next()   
     }
 })
 
