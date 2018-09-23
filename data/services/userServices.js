@@ -147,7 +147,11 @@ let userServices = {
     },
     login: async (email, password) => {
         try {
-            let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [email])
+            // let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [email])
+
+            let rows = await knex('users').withSchema('ticket_schema').select().where({
+                useremail: email
+            })
 
             if(rows){
                 let hashedSaltedPassword = await bcryptServices.compare(password, rows[0].usersalt, rows[0].userpassword)
@@ -169,6 +173,11 @@ let userServices = {
     },
     getLoggedInUser: async (sessionId) => {
         try {
+            const values = { sessionId: sessionId }
+
+            const schema = Joi.object().keys({
+                password: Joi.string().min(12).required()
+            })
             let user = await userSessionServices.checkSessionId(sessionId)
             console.log(user)
             return user
