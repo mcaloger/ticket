@@ -13,6 +13,4 @@ let knex = require('knex')({
     debug: true
 })
 
-
-
 module.exports = knex

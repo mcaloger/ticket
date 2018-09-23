@@ -9,9 +9,22 @@ router.get('/', async (req, res, next) => {
   res.json(ownedTickets)
 })
 
-router.get('/check/:name', async (req, res, next) => {
-  let result = userServices.checkIfUserDoesNotExist(req.params.name)
-  res.json(result)
+router.post('/create', async (req, res, next) => {
+  try {
+    let ownerId = req.body.ownerId
+    let requesterId = req.body.requesterId
+    let summary = req.body.summary
+    let description = req.body.description
+
+    let create = ticketServices.createTicket(ownerId, requesterId, summary, description)
+
+    res.json('message: success')
+  } catch (e) {
+    next()
+  }
+  
+
+
 })
 
 module.exports = router;
