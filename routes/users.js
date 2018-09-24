@@ -72,8 +72,13 @@ router.post("/login", async (req, res, next) => {
 })
 
 router.post("/checklogin", async (req, res, next) => {
-    let sessionId = req.body.sessionId
-    let userId = await userServices.getLoggedInUsername(sessionId)
+    console.log('checklogin')
+    let sessionId = req.headers.sessionid
+    console.log('head', req.headers)
+    console.log('checklogin', sessionId)
+    let userId = await userServices.getLoggedInUser(sessionId)
+    console.log(userId)
+
     res.json(userId)
 })
 

@@ -4,11 +4,13 @@ let cryptoServices = require ('../../security/cryptoServices')
 let userSessionServices = require('../services/userSessionServices')
 let knex = require('../knex')
 let Joi = require('joi')
+let config = require('../../config/config')
+let Jwt = require('jsonwebtoken')
 
 let userServices = {
     getUsers: async () => {
         try {
-            let rows = await knex('users').withSchema('ticket_schema').select()
+            let rows = await knex('users').withSchema('user').select()
             return rows
         } catch (e) {
             console.log(e)
@@ -24,7 +26,7 @@ let userServices = {
             const {error, value} = Joi.validate({id: id}, schema)
 
             if(error === null) {
-                let rows = await knex('users').withSchema('ticket_schema').select().where({
+                let rows = await knex('users').withSchema('user').select().where({
                     userid: id
                 })
                 return rows;
@@ -39,8 +41,8 @@ let userServices = {
     },
     getUserIdFromEmail: async (email) => {
         try {
-            //let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [email]);
-            let rows = await knex('users').withSchema('ticket_schema').select().where({
+            //let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email]);
+            let rows = await knex('users').withSchema('user').select().where({
                 useremail: email
             })
             return rows[0].userid
@@ -50,8 +52,8 @@ let userServices = {
     },
     checkIfUserDoesNotExist: async (username) => {
         try {
-            //let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [username]);
-            let rows = await knex('users').withSchema('ticket_schema').select().where({
+            //let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [username]);
+            let rows = await knex('users').withSchema('user').select().where({
                 useremail: username
             })
             if(rows.length === 0) {
@@ -70,7 +72,7 @@ let userServices = {
                 password: password,
                 salt: salt
             }
-            //pool.query("INSERT INTO ticket_schema.users (useremail, userpassword, usersalt, active) VALUES ($1, $2, $3, $4);", [email, password, salt, true])
+            //pool.query("INSERT INTO user.users (useremail, userpassword, usersalt, active) VALUES ($1, $2, $3, $4);", [email, password, salt, true])
             const schema = Joi.object().keys({
                 email: Joi.string().email({
                     minDomainAtoms: 2
@@ -82,7 +84,7 @@ let userServices = {
             const { error, value } = Joi.validate(values, schema)
 
             if(error === null) {
-                let query = await knex('users').withSchema('ticket_schema').insert({
+                let query = await knex('users').withSchema('user').insert({
                     useremail: email,
                     userpassword: password,
                     usersalt: salt,
@@ -105,7 +107,7 @@ let userServices = {
                 password: Joi.string().min(12).required()
             })
 
-            let {error, value} = Joi.validate({email: email, password: password}, schema)
+            let { error, value } = Joi.validate({email: email, password: password}, schema)
 
             if(error == null) {
                 let doesNotExist = await userServices.checkIfUserDoesNotExist(email)
@@ -147,19 +149,24 @@ let userServices = {
     },
     login: async (email, password) => {
         try {
-            // let { rows } = await pool.query("SELECT * FROM ticket_schema.users WHERE useremail = $1", [email])
+            // let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email])
 
-            let rows = await knex('users').withSchema('ticket_schema').select().where({
+            let rows = await knex('users').withSchema('user').select().where({
                 useremail: email
-            })
+            }).first()
+
+            console.log(rows)
 
             if(rows){
-                let hashedSaltedPassword = await bcryptServices.compare(password, rows[0].usersalt, rows[0].userpassword)
+                console.log(rows.userpassword)
+                let hashedSaltedPassword = await bcryptServices.compare(password, rows.userpassword)
                 let sessionToken = await cryptoServices.generateSessionId()
+                let jwt = Jwt.sign(sessionToken, config.jwtkey)
+                
                 if(hashedSaltedPassword == true) {
                     let userId = await userServices.getUserIdFromEmail(email)
                     userSessionServices.registerSession(userId, sessionToken)
-                    return {login: true, sessionToken: sessionToken, message:"success"}
+                    return {login: true, sessionToken: sessionToken, jwt, message:"success"}
                 } else {
                     return {login: false, message: "Invalid username/password"}
                 }
@@ -173,11 +180,13 @@ let userServices = {
     },
     getLoggedInUser: async (sessionId) => {
         try {
-            const values = { sessionId: sessionId }
+            console.log('getloggedinusername', sessionId)
+            // const values = { sessionId: sessionId }
 
-            const schema = Joi.object().keys({
-                password: Joi.string().min(12).required()
-            })
+            // const schema = Joi.object().keys({
+            //     password: Joi.string().min(12).required()
+            // })
+
             let user = await userSessionServices.checkSessionId(sessionId)
             console.log(user)
             return user

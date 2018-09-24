@@ -15,8 +15,9 @@ let bcryptServices = {
 
         return result;
     },
-    compare: async (password, salt, hash) => {
+    compare: async (password, hash) => {
         try {
+            console.log(password, hash)
             return bcrypt.compareSync(password, hash)
         } catch(e) {
             console.log(e)

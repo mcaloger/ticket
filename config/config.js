@@ -9,7 +9,8 @@ let config = {
         database: process.env.PGDATABASE,
         password: process.env.PGPASSWORD,
         port: process.env.PGPORT,
-    }
+    },
+    jwtkey: process.env.JWTSECRET
 }
 
 module.exports = config

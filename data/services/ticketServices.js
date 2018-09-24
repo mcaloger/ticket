@@ -20,6 +20,8 @@ let ticketServices = {
                 summary: summary,
                 description: description
             })
+
+            return true
         } catch (e) {
             console.log(e)
             throw new Error('ServiceError')
