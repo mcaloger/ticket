@@ -18,7 +18,13 @@ let userSessionServices = {
     },
     invalidateSession: async (sessionId) => {
         try {
-            pool.query('DELETE FROM ticket_schema.usersessions WHERE sessionid = $1', [sessionId])
+            //pool.query('DELETE FROM ticket_schema.usersessions WHERE sessionid = $1', [sessionId])
+            let rows = await knex('usersessions')
+                                .withSchema('user')
+                                .delete()
+                                .where({
+                                    sessionid: sessionId
+                                })
         } catch (e) {
             console.log(e)
             return false
@@ -26,7 +32,6 @@ let userSessionServices = {
     },
     checkSessionId: async (sessionId) => {
         try {
-            console.log('checksesssessid', sessionId)
             //let rows = await pool.query('SELECT usersessions.userid, users.useremail FROM user.usersessions INNER JOIN user.users ON usersessions.userid = users.userid WHERE usersessions.sessionid = $1;', [sessionId])
             let rows = await knex('usersessions')
                                 .withSchema('user')
@@ -34,7 +39,6 @@ let userSessionServices = {
                                 .innerJoin('users', 'users.userid', 'usersessions.userid')
                                 .where({sessionid: sessionId})
                                 .withSchema('user')
-            console.log("checkSessionId", rows)
             if(rows){
                 return rows[0]
             } else {
