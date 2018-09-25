@@ -25,6 +25,9 @@ app.use('/', indexRouter);
 // tickets CRUD
 let ticketsRouter = require('./routes/tickets');
 app.use('/api/v1/tickets', ticketsRouter);
+// ticket comments
+let ticketCommentsRouter = require('./routes/ticketComments');
+app.use('/api/v1/ticketComments', ticketCommentsRouter);
 // users
 let usersRouter = require('./routes/users');
 app.use('/api/v1/users', usersRouter);
