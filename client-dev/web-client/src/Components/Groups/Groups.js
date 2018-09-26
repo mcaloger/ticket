@@ -11,14 +11,9 @@ class Groups extends Component {
             items: []
         };
       }
-    
-    componentDidMount () {
-        this.loadData()
-        this.formatData()
-    }
 
     componentDidMount() {
-        fetch('http://localhost:3000/api/v1/users/')
+        fetch('http://localhost:3000/api/v1/users')
         .then(res => res.json())
         .then(
             (result) => {
@@ -26,40 +21,21 @@ class Groups extends Component {
                     items: result,
                     isLoaded: true
                 });
-                this.formatData()
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error: error
-                })
             }
         )
-    }
-
-    componentWillReceiveProps () {
-        this.loadData()
-        this.formatData()
-    }
-
-    formatData() {
-        
-        let list = this.state.items.map(item => {
-            <p>{item}</p>
+        .catch(error => {
+            this.setState({
+                isLoaded: true, 
+                error: "Error"
+            })
         })
-
-        console.log('list', list)
-
-        return (
-            <div>{list}</div>
-        )
     }
     
     render () {
         const { error, isLoaded, items } = this.state;
         console.log('render', this.state)
         if (error){
-            return <div>Error: {error.message}</div>
+            return <div>Error</div>
         } else if (!isLoaded) {
             return <div>Loading...</div>
         } else {

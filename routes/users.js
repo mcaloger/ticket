@@ -62,6 +62,8 @@ router.post("/login", async (req, res, next) => {
         let email = req.body.email;
         let password = req.body.password
 
+        console.log('emailpass', email, password, 'reqbody', req.body)
+
         let login = await userServices.login(email, password)
 
         res.json(login)
@@ -71,12 +73,12 @@ router.post("/login", async (req, res, next) => {
 
 })
 
-router.post("/checklogin", async (req, res, next) => {
+router.get("/checklogin", async (req, res, next) => {
     console.log('checklogin')
-    let sessionId = req.headers.sessionid
+    let sessionToken = req.headers.sessiontoken
     console.log('head', req.headers)
-    console.log('checklogin', sessionId)
-    let userId = await userServices.getLoggedInUser(sessionId)
+    console.log('checklogin', sessionToken)
+    let userId = await userServices.getLoggedInUser(sessionToken)
     console.log(userId)
 
     res.json(userId)

@@ -150,7 +150,7 @@ let userServices = {
     login: async (email, password) => {
         try {
             // let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email])
-
+            console.log('kogin', email, password)
             let rows = await knex('users').withSchema('user').select().where({
                 useremail: email
             }).first()
@@ -166,12 +166,12 @@ let userServices = {
                 if(hashedSaltedPassword == true) {
                     let userId = await userServices.getUserIdFromEmail(email)
                     userSessionServices.registerSession(userId, sessionToken)
-                    return {login: true, sessionToken: sessionToken, jwt, message:"success"}
+                    return {login: true, sessionToken: sessionToken, jwt, error: null}
                 } else {
-                    return {login: false, message: "Invalid username/password"}
+                    return {login: false, error: "Invalid username/password"}
                 }
             } else {
-                return {login: false, message: "Invalid username/password."}
+                return {login: false, error: "Invalid username/password."}
             }
         } catch (e) {
             console.error(e)
