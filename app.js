@@ -18,6 +18,7 @@ app.use(cors())
 
 app.use('/static', express.static(__dirname + '/static'));
 
+app.use(getSessionId)
 
 // apply middleware
 app.use(logger('dev'));
@@ -37,6 +38,13 @@ app.use('/api/v1/ticketComments', ticketCommentsRouter);
 // users
 let usersRouter = require('./routes/users');
 app.use('/api/v1/users', usersRouter);
+
+let getSessionId = (req, res, next) => {
+    // get id before all route handling and give to req
+    req.sessionId = req.header('sessionid')
+    console.log('headers', req.headers)
+    
+}
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
