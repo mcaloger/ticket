@@ -17,6 +17,13 @@ let userServices = {
             throw new Error('ServiceError')
         }
     },
+
+    /**
+     *
+     *
+     * @param {*} id
+     * @returns user {}
+     */
     getUserById: async (id) => {
         try {
             const schema = Joi.object().keys({
@@ -39,6 +46,13 @@ let userServices = {
             throw new Error('ServiceError')
         }
     },
+
+    /**
+     *
+     *
+     * @param {*} email
+     * @returns
+     */
     getUserIdFromEmail: async (email) => {
         try {
             //let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email]);
