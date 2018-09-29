@@ -17,6 +17,13 @@ let userServices = {
             throw new Error('ServiceError')
         }
     },
+
+    /**
+     *
+     *
+     * @param {*} id
+     * @returns user {}
+     */
     getUserById: async (id) => {
         try {
             const schema = Joi.object().keys({
