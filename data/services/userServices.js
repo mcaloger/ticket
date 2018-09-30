@@ -8,6 +8,11 @@ let config = require('../../config/config')
 let Jwt = require('jsonwebtoken')
 
 let userServices = {
+    /**
+     * -DEV ONLY- Returns list of users
+     *
+     * @returns []
+     */
     getUsers: async () => {
         try {
             let rows = await knex('users').withSchema('user').select()
@@ -19,9 +24,9 @@ let userServices = {
     },
 
     /**
+     * -DEV ONLY- Returns user with userid {id}
      *
-     *
-     * @param {*} id
+     * @param {int} id
      * @returns user {}
      */
     getUserById: async (id) => {
