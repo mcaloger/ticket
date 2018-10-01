@@ -69,6 +69,12 @@ let userServices = {
             throw new Error('ServiceError')
         }
     },
+    /**
+     * Used to see if username exists already
+     *
+     * @param {*} username
+     * @returns
+     */
     checkIfUserDoesNotExist: async (username) => {
         try {
             //let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [username]);
@@ -84,6 +90,14 @@ let userServices = {
             throw new Error('ServiceError')
         }
     },
+    /**
+     * Creates user
+     *
+     * @param {*} email
+     * @param {*} password
+     * @param {*} salt
+     * @returns
+     */
     createUser: async (email, password, salt) => {
         try {
             let values = {
@@ -119,6 +133,13 @@ let userServices = {
             throw new Error('ServiceError')
         }
     },
+    /**
+     * Registers user, hands off to createUser()
+     *
+     * @param {*} email
+     * @param {*} password
+     * @returns
+     */
     register: async (email, password) => {
         try {
             const schema = Joi.object().keys({
@@ -160,12 +181,31 @@ let userServices = {
         }
         
     },
+    /**
+     * TODO
+     *
+     * @param {*} email
+     * @param {*} password
+     * @param {*} salt
+     * @param {*} active
+     */
     updateUser: async (email, password, salt, active) => {
 
     },
+    /**
+     * TODO Update user's active status
+     *
+     */
     updateUserActive: async () => {
 
     },
+    /**
+     * Check if proper username/password, issue sessionId (TODO: JWT) if so
+     *
+     * @param {*} email
+     * @param {*} password
+     * @returns
+     */
     login: async (email, password) => {
         try {
             // let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email])
@@ -197,6 +237,12 @@ let userServices = {
             return false
         }
     },
+    /**
+     * Given sessionID (TODO: JWT) get user
+     *
+     * @param {*} sessionId
+     * @returns
+     */
     getLoggedInUser: async (sessionId) => {
         try {
             console.log('getloggedinusername', sessionId)
