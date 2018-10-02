@@ -245,13 +245,6 @@ let userServices = {
      */
     getLoggedInUser: async (sessionId) => {
         try {
-            console.log('getloggedinusername', sessionId)
-            // const values = { sessionId: sessionId }
-
-            // const schema = Joi.object().keys({
-            //     password: Joi.string().min(12).required()
-            // })
-
             let user = await userSessionServices.checkSessionId(sessionId)
             console.log(user)
             return user
