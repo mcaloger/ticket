@@ -3,6 +3,11 @@ let knex = require('../knex')
 let pool = require('../database')
 
 let ticketServices = {
+    /**
+     * Given sessionId, get tickets that belong to user
+     *
+     * @param {*} sessionId
+     */
     getOwnedTickets: async (sessionId) => {
         try {
             let user = await userServices.getLoggedInUser(sessionId)
@@ -16,6 +21,13 @@ let ticketServices = {
             throw new Error('ServiceError')
         }
     },
+    /**
+     * Given a userId, and a sessionId for authentication, get tickets owned by user
+     *
+     * @param {*} sessionId
+     * @param {*} userId
+     * @returns
+     */
     getUserOwnedTickets: async (sessionId, userId) => {
         console.log('userid', userId)
         try {
@@ -33,6 +45,15 @@ let ticketServices = {
 
         
     },
+    /**
+     * Generate a new ticket
+     *
+     * @param {*} ownerId
+     * @param {*} requesterId
+     * @param {*} summary
+     * @param {*} description
+     * @returns
+     */
     createTicket: async (ownerId, requesterId, summary, description) => {
         try {
             console.log('createowneridreq', ownerId, requesterId)
@@ -49,6 +70,15 @@ let ticketServices = {
             throw new Error('ServiceError')
         }
     },
+    /**
+     * Update a ticket
+     *
+     * @param {*} ticketId
+     * @param {*} ownerId
+     * @param {*} requesterId
+     * @param {*} summary
+     * @param {*} description
+     */
     updateTicket: async (ticketId, ownerId, requesterId, summary, description) => {
         try {
             let rows = await knex('tickets').withSchema('ticket').update({
