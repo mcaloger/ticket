@@ -57,7 +57,7 @@ let ticketServices = {
     createTicket: async (ownerId, requesterId, summary, description) => {
         try {
             console.log('createowneridreq', ownerId, requesterId)
-            let rows = await knex('tickets').withSchema('ticket').insert({
+            let query = await knex('tickets').withSchema('ticket').insert({
                 ownerid: ownerId,
                 requesterid: requesterId,
                 summary: summary,
@@ -81,7 +81,7 @@ let ticketServices = {
      */
     updateTicket: async (ticketId, ownerId, requesterId, summary, description) => {
         try {
-            let rows = await knex('tickets').withSchema('ticket').update({
+            let query = await knex('tickets').withSchema('ticket').update({
                 ownerid: ownerId,
                 requesterId: requesterId,
                 summary: summary,

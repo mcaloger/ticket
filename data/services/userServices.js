@@ -15,8 +15,8 @@ let userServices = {
      */
     getUsers: async () => {
         try {
-            let rows = await knex('users').withSchema('user').select()
-            return rows
+            let query = await knex('users').withSchema('user').select()
+            return query
         } catch (e) {
             console.log(e)
             throw new Error('ServiceError')
@@ -38,10 +38,10 @@ let userServices = {
             const {error, value} = Joi.validate({id: id}, schema)
 
             if(error === null) {
-                let rows = await knex('users').withSchema('user').select().where({
+                let query = await knex('users').withSchema('user').select().where({
                     userid: id
                 })
-                return rows;
+                return query;
             }
             else {
                 throw new Error('validationError')
@@ -60,11 +60,11 @@ let userServices = {
      */
     getUserIdFromEmail: async (email) => {
         try {
-            //let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email]);
-            let rows = await knex('users').withSchema('user').select().where({
+            //let { query } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email]);
+            let query = await knex('users').withSchema('user').select().where({
                 useremail: email
             })
-            return rows[0].userid
+            return query[0].userid
         } catch (e) {
             throw new Error('ServiceError')
         }
@@ -77,11 +77,11 @@ let userServices = {
      */
     checkIfUserDoesNotExist: async (username) => {
         try {
-            //let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [username]);
-            let rows = await knex('users').withSchema('user').select().where({
+            //let { query } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [username]);
+            let query = await knex('users').withSchema('user').select().where({
                 useremail: username
             })
-            if(rows.length === 0) {
+            if(query.length === 0) {
                 return true;
             } else {
                 return false;
@@ -208,17 +208,17 @@ let userServices = {
      */
     login: async (email, password) => {
         try {
-            // let { rows } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email])
+            // let { query } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email])
             console.log('kogin', email, password)
-            let rows = await knex('users').withSchema('user').select().where({
+            let query = await knex('users').withSchema('user').select().where({
                 useremail: email
             }).first()
 
-            console.log(rows)
+            console.log(query)
 
-            if(rows){
-                console.log(rows.userpassword)
-                let hashedSaltedPassword = await bcryptServices.compare(password, rows.userpassword)
+            if(query){
+                console.log(query.userpassword)
+                let hashedSaltedPassword = await bcryptServices.compare(password, query.userpassword)
                 let sessionToken = await cryptoServices.generateSessionId()
                 let jwt = Jwt.sign(sessionToken, config.jwtkey)
                 
