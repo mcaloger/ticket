@@ -17,6 +17,12 @@ let ticketCommentServices = {
         }
         
     },
+    /**
+     * **TODO**
+     *
+     * @param {*} ticketId
+     * @returns
+     */
     getCommentsByTicket: async (ticketId) => {
         try {
             console.log('ticketid', ticketId)
