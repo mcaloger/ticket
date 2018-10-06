@@ -1,4 +1,4 @@
-let pool = require('../database');
+let pool = require('../database')
 let bcryptServices = require('../../security/bcryptServices')
 let cryptoServices = require ('../../security/cryptoServices')
 let userSessionServices = require('../services/userSessionServices')
@@ -41,7 +41,7 @@ let userServices = {
                 let query = await knex('users').withSchema('user').select().where({
                     userid: id
                 })
-                return query;
+                return query
             }
             else {
                 throw new Error('validationError')
@@ -60,7 +60,7 @@ let userServices = {
      */
     getUserIdFromEmail: async (email) => {
         try {
-            //let { query } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [email]);
+            
             let query = await knex('users').withSchema('user').select().where({
                 useremail: email
             })
@@ -77,14 +77,14 @@ let userServices = {
      */
     checkIfUserDoesNotExist: async (username) => {
         try {
-            //let { query } = await pool.query("SELECT * FROM user.users WHERE useremail = $1", [username]);
+            
             let query = await knex('users').withSchema('user').select().where({
                 useremail: username
             })
             if(query.length === 0) {
-                return true;
+                return true
             } else {
-                return false;
+                return false
             }
         } catch (e) {
             throw new Error('ServiceError')
@@ -100,12 +100,13 @@ let userServices = {
      */
     createUser: async (email, password, salt) => {
         try {
+
             let values = {
                 email: email,
                 password: password,
                 salt: salt
             }
-            //pool.query("INSERT INTO user.users (useremail, userpassword, usersalt, active) VALUES ($1, $2, $3, $4);", [email, password, salt, true])
+
             const schema = Joi.object().keys({
                 email: Joi.string().email({
                     minDomainAtoms: 2
@@ -252,6 +253,6 @@ let userServices = {
             throw new Error('ServiceError')
         }
     }
-};
+}
 
-module.exports = userServices;
+module.exports = userServices

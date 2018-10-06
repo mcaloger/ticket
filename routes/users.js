@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
     } catch (e) {
         next()
     }
-});
+})
 
 router.get('/user/:id', async (req, res, next) => {
     let userId = req.params.id
@@ -59,7 +59,7 @@ router.post('/register', async (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
     try {
-        let email = req.body.email;
+        let email = req.body.email
         let password = req.body.password
 
         console.log('emailpass', email, password, 'reqbody', req.body)
@@ -84,4 +84,4 @@ router.get("/checklogin", async (req, res, next) => {
     res.json(userId)
 })
 
-module.exports = router;
+module.exports = router

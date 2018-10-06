@@ -14,9 +14,9 @@ describe('users', () => {
             chai.request(server)
                 .get('/api/v1/users/')
                 .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('array');
-                    done();
+                    res.should.have.status(200)
+                    res.body.should.be.a('array')
+                    done()
                 })
         })
     }),

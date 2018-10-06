@@ -1,4 +1,4 @@
-let pool = require('../database');
+let pool = require('../database')
 let timeServices = require('../../security/timeServices')
 let knex = require('../knex')
 
@@ -51,7 +51,7 @@ let userSessionServices = {
      */
     checkSessionId: async (sessionId) => {
         try {
-            //let query = await pool.query('SELECT usersessions.userid, users.useremail FROM user.usersessions INNER JOIN user.users ON usersessions.userid = users.userid WHERE usersessions.sessionid = $1;', [sessionId])
+            
             let query = await knex('usersessions')
                                 .withSchema('user')
                                 .select()
