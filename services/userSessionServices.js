@@ -1,6 +1,6 @@
-let pool = require('../database')
-let timeServices = require('../../security/timeServices')
-let knex = require('../knex')
+let pool = require('../data/database')
+let timeServices = require('../security/timeServices')
+let knex = require('../data/knex')
 
 let userSessionServices = {
     /**

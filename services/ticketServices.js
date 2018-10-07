@@ -1,6 +1,6 @@
-let userServices = require('../services/userServices')
-let knex = require('../knex')
-let pool = require('../database')
+let userServices = require('../data/services/userServices')
+let knex = require('../data/knex')
+let pool = require('../data/database')
 
 let ticketServices = {
     /**

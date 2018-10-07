@@ -1,4 +1,4 @@
-let knex = require('../knex')
+let knex = require('../data/knex')
 
 let ticketCommentServices = {
     createTicketComment: async (ticketId, userId, commentText, commentData) => {
