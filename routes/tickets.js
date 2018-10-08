@@ -10,8 +10,6 @@ let Joi = require('joi')
 router.get('/', async (req, res, next) => {
   let sessionId = req.headers.sessionid
 
-  console.log('sess', sessionId, req.body)
-
   if (typeof (sessionId) == undefined) {
     res.setHeader('WWW-Authenticate', 'Basic')
     res.status(401).json({
@@ -41,8 +39,6 @@ router.get('/user/:id', async (req, res, next) => {
 router.post('/create', async (req, res, next) => {
   try {
     let sessionId = req.headers.sessionid
-
-    console.log('sess', sessionId, req.body)
 
     if(typeof(sessionId) == undefined) {
       res.setHeader('WWW-Authenticate', 'Basic')

@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/user/:id', async (req, res, next) => {
     let userId = req.params.id
-    console.log(userId)
+
     try {
         let result = await userServices.getUserById(userId)
         res.json(result)
@@ -61,9 +61,6 @@ router.post("/login", async (req, res, next) => {
     try {
         let email = req.body.email
         let password = req.body.password
-
-        console.log('emailpass', email, password, 'reqbody', req.body)
-
         let login = await userServices.login(email, password)
 
         res.json(login)
@@ -74,12 +71,11 @@ router.post("/login", async (req, res, next) => {
 })
 
 router.get("/checklogin", async (req, res, next) => {
-    console.log('checklogin')
+
     let sessionToken = req.headers.sessiontoken
-    console.log('head', req.headers)
-    console.log('checklogin', sessionToken)
+
     let userId = await userServices.getLoggedInUser(sessionToken)
-    console.log(userId)
+
 
     res.json(userId)
 })

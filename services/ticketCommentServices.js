@@ -1,6 +1,15 @@
 let knex = require('../data/knex')
 
 let ticketCommentServices = {
+    /**
+     * Add a ticket comment
+     *
+     * @param {*} ticketId
+     * @param {*} userId
+     * @param {*} commentText
+     * @param {*} commentData
+     * @returns
+     */
     createTicketComment: async (ticketId, userId, commentText, commentData) => {
         try {
             let query = await knex('ticketcomments').withSchema('ticket').insert({
@@ -19,6 +28,12 @@ let ticketCommentServices = {
     },
     /**
      * **TODO**
+     *
+     * @param {*} ticketId
+     * @returns
+     */
+    /**
+     * Retrieve ticlket comments given ticket id
      *
      * @param {*} ticketId
      * @returns
