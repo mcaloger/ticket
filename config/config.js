@@ -1,6 +1,6 @@
 let config = {
-    securityTimePolicyDays: 90,
-    saltRounds: 12,
+    securityTimePolicyDays: 90, // How long a session should stay logged
+    saltRounds: 12, // Rounds used for salt+hash
     dbDebug: false,
     sessionIdBytes: 128,
     db: {

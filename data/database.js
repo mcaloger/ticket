@@ -1,7 +1,6 @@
 const { Pool } = require('pg')
 let config = require('../config/config')
 
-// test connect
 const pool = new Pool({
   user: config.db.user,
   host: config.db.host,
