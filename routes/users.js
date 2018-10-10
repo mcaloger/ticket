@@ -20,7 +20,6 @@ router.get('/user/:id', async (req, res, next) => {
         let result = await userServices.getUserById(userId)
         res.json(result)
     } catch (e) {
-        console.log(e)
         next()
     }
 })
@@ -72,12 +71,15 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/checklogin", async (req, res, next) => {
 
-    let sessionToken = req.headers.sessiontoken
+    try {
+        let sessionToken = req.headers.sessiontoken
 
-    let userId = await userServices.getLoggedInUser(sessionToken)
+        let userId = await userServices.getLoggedInUser(sessionToken)
 
-
-    res.json(userId)
+        res.json(userId)
+    } catch (e) {
+        next()
+    }
 })
 
 module.exports = router

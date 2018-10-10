@@ -8,18 +8,23 @@ let Joi = require('joi')
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
-  let sessionId = req.headers.sessionid
+  try {
+    let sessionId = req.headers.sessionid
 
-  if (typeof (sessionId) == undefined) {
-    res.setHeader('WWW-Authenticate', 'Basic')
-    res.status(401).json({
-      message: "Unauthenticated"
-    })
-  } else { 
-    let ownedTickets = ticketServices.getOwnedTickets(sessionId)
+    if (typeof (sessionId) == undefined) {
+      res.setHeader('WWW-Authenticate', 'Basic')
+      res.status(401).json({
+        message: "Unauthenticated"
+      })
+    } else { 
+      let ownedTickets = ticketServices.getOwnedTickets(sessionId)
 
-    res.json(ownedTickets)
+      res.json(ownedTickets)
+    }
+  } catch(e) {
+    next()
   }
+  
 })
 
 router.get('/user/:id', async (req, res, next) => {

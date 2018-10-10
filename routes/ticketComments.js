@@ -10,14 +10,19 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.post('/create/:id', async (req, res, next) => {
-    let id = req.params.id
+    try {
+        let id = req.params.id
 
-    let userId = req.body.userId
-    let commentText = req.body.commentText
-    let commentData = req.body.commentData
+        let userId = req.body.userId
+        let commentText = req.body.commentText
+        let commentData = req.body.commentData
 
-    let comments = await ticketCommentServices.createTicketComment(id, userId, commentText, commentData)
-    res.json(comments)
+        let comments = await ticketCommentServices.createTicketComment(id, userId, commentText, commentData)
+        res.json(comments)
+    } catch(e) {
+        next()
+    }
+    
 })
 
 module.exports = router
