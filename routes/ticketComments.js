@@ -4,22 +4,39 @@ let router = express.Router()
 let ticketCommentServices = require('../data/services/ticketCommentServices')
 
 router.get('/:id', async (req, res, next) => {
-    let id = req.params.id
-    let comments = await ticketCommentServices.getCommentsByTicket(id)
-    res.json(comments)
-})
-
-router.post('/create/:id', async (req, res, next) => {
     try {
+        // fetch given id
         let id = req.params.id
 
-        let userId = req.body.userId
-        let commentText = req.body.commentText
-        let commentData = req.body.commentData
+        // get comments assigned to particular ticket.
+        let comments = await ticketCommentServices.getCommentsByTicket(id)
 
-        let comments = await ticketCommentServices.createTicketComment(id, userId, commentText, commentData)
+        // serve json of comments
         res.json(comments)
     } catch(e) {
+        // handle error
+        next()
+    }
+    
+})
+
+router.post('/create/:ticketId', async (req, res, next) => {
+    try {
+        // wrap data object
+        let data = {
+            ticketId: req.params.ticketId,
+            userId: req.body.userId,
+            commentText: req.body.commentText,
+            commentData: req.body.commentData
+        }
+
+        // create a comment ona  ticket
+        let comments = await ticketCommentServices.createTicketComment(data.ticketId, data.userId, data.commentText, data.commentData)
+        
+        // return result
+        res.json(comments)
+    } catch(e) {
+        // handle error
         next()
     }
     
