@@ -6,19 +6,23 @@ let ticketServices = require('../data/services/ticketServices')
 
 let Joi = require('joi')
 
-/* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
+    // Set sessionId to header "sessionid"
     let sessionId = req.headers.sessionid
 
+    // Check that sessionId is defined
     if (typeof (sessionId) == undefined) {
+      // If undefined, set headers to display improper auth
       res.setHeader('WWW-Authenticate', 'Basic')
       res.status(401).json({
         message: "Unauthenticated"
       })
     } else { 
+      // Retrieve owned tickets
       let ownedTickets = ticketServices.getOwnedTickets(sessionId)
 
+      // Serve owned tickets
       res.json(ownedTickets)
     }
   } catch(e) {

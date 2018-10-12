@@ -30,7 +30,7 @@ router.post('/create/:ticketId', async (req, res, next) => {
             commentData: req.body.commentData
         }
 
-        // create a comment ona  ticket
+        // create a comment on a ticket
         let comments = await ticketCommentServices.createTicketComment(data.ticketId, data.userId, data.commentText, data.commentData)
         
         // return result
