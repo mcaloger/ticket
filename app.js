@@ -10,6 +10,7 @@ let logger = require('morgan')
 let helmet = require('helmet')
 let bodyParser = require('body-parser')
 let cors = require('cors')
+let getSessionId = require('./security/middleware/getSessionId')
 
 // setup app
 let app = express()
@@ -24,6 +25,7 @@ app.use(getSessionId)
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(helmet())
+app.use(getSessionId())
 
 //routes
 // serve frontend
@@ -38,13 +40,6 @@ app.use('/api/v1/ticketComments', ticketCommentsRouter)
 // users
 let usersRouter = require('./routes/users')
 app.use('/api/v1/users', usersRouter)
-
-let getSessionId = (req, res, next) => {
-    // get id before all route handling and give to req
-    req.sessionId = req.header('sessionid')
-    console.log('headers', req.headers)
-    
-}
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
