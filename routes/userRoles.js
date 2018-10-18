@@ -3,8 +3,8 @@ let router = express.Router()
 
 router.get('/', function(req, res, next) {
   try {
-
-    // TODO: allow deep-linking
+    
+    
   } catch(e) {
     next()
   }

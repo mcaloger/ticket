@@ -17,17 +17,19 @@ let userRoleServices = {
     /**
      * Add a user role
      *
-     * @param {*} userId
-     * @param {*} role
+     * @param {int} userId
+     * @param {string} role
      */
     addRole: async (userId, role) => {
-        
+        let roles = knex('userroles').withSchema('ticket').select().where({
+            userid: userId
+        })
     }, 
     /**
      * Remove user role
      *
-     * @param {*} userId
-     * @param {*} role
+     * @param {int} userId
+     * @param {string} role
      */
     removeRole: async (userId, role) => {
 
@@ -36,8 +38,8 @@ let userRoleServices = {
     /**
      * Given an int userId and an array roles, set user's roles
      *
-     * @param {*} userId
-     * @param {*} roles
+     * @param {int} userId
+     * @param {string[]} roles
      */
     setRoles: async (userId, roles) => {
 

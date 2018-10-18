@@ -6,7 +6,7 @@ let ticketServices = {
     /**
      * Given sessionId, get tickets that belong to user
      *
-     * @param {*} sessionId
+     * @param {int} sessionId
      */
     getOwnedTickets: async (sessionId) => {
         try {
@@ -24,8 +24,8 @@ let ticketServices = {
     /**
      * Given a userId, and a sessionId for authentication, get tickets owned by user
      *
-     * @param {*} sessionId
-     * @param {*} userId
+     * @param {int} sessionId
+     * @param {int} userId
      * @returns
      */
     getUserOwnedTickets: async (sessionId, userId) => {
@@ -48,15 +48,14 @@ let ticketServices = {
     /**
      * Generate a new ticket
      *
-     * @param {*} ownerId
-     * @param {*} requesterId
-     * @param {*} summary
-     * @param {*} description
+     * @param {int} ownerId
+     * @param {int} requesterId
+     * @param {string} summary
+     * @param {string} description
      * @returns
      */
     createTicket: async (ownerId, requesterId, summary, description) => {
         try {
-            console.log('createowneridreq', ownerId, requesterId)
             let query = await knex('tickets').withSchema('ticket').insert({
                 ownerid: ownerId,
                 requesterid: requesterId,
@@ -73,11 +72,11 @@ let ticketServices = {
     /**
      * Update a ticket
      *
-     * @param {*} ticketId
-     * @param {*} ownerId
-     * @param {*} requesterId
-     * @param {*} summary
-     * @param {*} description
+     * @param {int} ticketId
+     * @param {int} ownerId
+     * @param {int} requesterId
+     * @param {string} summary
+     * @param {string} description
      */
     updateTicket: async (ticketId, ownerId, requesterId, summary, description) => {
         try {
