@@ -1,14 +1,30 @@
 let knex = require('../data/knex')
 
 let userRoleServices = {
-    getUserRole: async (userId) => {
 
+    /**
+     * Get user roles given a userId
+     *
+     * @param {*} userId
+     */
+    getUserRole: (userId) => {
+        let roles = knex('userroles').withSchema('ticket').select().where({
+            userid: userId
+        })
+
+        return roles
     },
+    /**
+     * Add a user role
+     *
+     * @param {*} userId
+     * @param {*} role
+     */
     addRole: async (userId, role) => {
-
+        
     }, 
     /**
-     * Remove
+     * Remove user role
      *
      * @param {*} userId
      * @param {*} role
@@ -18,7 +34,7 @@ let userRoleServices = {
     },
     
     /**
-     *Given an int userId and an array roles, set user's roles
+     * Given an int userId and an array roles, set user's roles
      *
      * @param {*} userId
      * @param {*} roles

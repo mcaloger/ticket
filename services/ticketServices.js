@@ -12,7 +12,7 @@ let ticketServices = {
         try {
             let user = await userServices.getLoggedInUser(sessionId)
 
-            let tickets = knex('tickets').select().where({
+            let tickets = knex('tickets').withSchema('ticket').select().where({
                 ownerid: user.userId
             })
 
