@@ -6,7 +6,7 @@ let ticketServices = {
     /**
      * Given sessionId, get tickets that belong to user
      *
-     * @param {int} sessionId
+     * @param {number} sessionId
      */
     getOwnedTickets: async (sessionId) => {
         try {
@@ -24,8 +24,8 @@ let ticketServices = {
     /**
      * Given a userId, and a sessionId for authentication, get tickets owned by user
      *
-     * @param {int} sessionId
-     * @param {int} userId
+     * @param {number} sessionId
+     * @param {number} userId
      * @returns
      */
     getUserOwnedTickets: async (sessionId, userId) => {
@@ -48,8 +48,8 @@ let ticketServices = {
     /**
      * Generate a new ticket
      *
-     * @param {int} ownerId
-     * @param {int} requesterId
+     * @param {number} ownerId
+     * @param {number} requesterId
      * @param {string} summary
      * @param {string} description
      * @returns
@@ -72,9 +72,9 @@ let ticketServices = {
     /**
      * Update a ticket
      *
-     * @param {int} ticketId
-     * @param {int} ownerId
-     * @param {int} requesterId
+     * @param {number} ticketId
+     * @param {number} ownerId
+     * @param {number} requesterId
      * @param {string} summary
      * @param {string} description
      */

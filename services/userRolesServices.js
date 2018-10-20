@@ -17,7 +17,7 @@ let userRoleServices = {
     /**
      * Add a user role
      *
-     * @param {int} userId
+     * @param {number} userId
      * @param {string} role
      */
     addRole: async (userId, role) => {
@@ -28,7 +28,7 @@ let userRoleServices = {
     /**
      * Remove user role
      *
-     * @param {int} userId
+     * @param {number} userId
      * @param {string} role
      */
     removeRole: async (userId, role) => {
@@ -36,9 +36,9 @@ let userRoleServices = {
     },
     
     /**
-     * Given an int userId and an array roles, set user's roles
+     * Given an number userId and an array roles, set user's roles
      *
-     * @param {int} userId
+     * @param {number} userId
      * @param {string[]} roles
      */
     setRoles: async (userId, roles) => {
